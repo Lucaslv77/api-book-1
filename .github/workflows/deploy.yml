@@ -1,0 +1,22 @@
+name: Deploy para Render
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Instalar dependências
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3
+      - name: Deploy para Render
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          curl -X POST $RENDER_DEPLOY_HOOK
